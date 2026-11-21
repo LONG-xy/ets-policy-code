@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.DS_Store
+.idea/
+.vscode/
+.env
+.env.*
+local_inputs/
+results/
+figures/
+*.ipynb
