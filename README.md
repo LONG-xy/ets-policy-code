@@ -68,13 +68,3 @@ optimal_welfare = -result.fun
 
 The welfare window can be `observation` (evaluation phase), `implementation` (transition phase), `all` (all post-baseline periods), or a positive integer selecting the last n periods. `aggregation` is `mean` or `sum` across period totals.
 
-## Interfaces
-
-| Function | Purpose |
-| --- | --- |
-| `simulate_ets(parameters)` | Run the BAU and ETS scenarios with shared firm heterogeneity |
-| `run_model(scenarios, parameters)` | Run selected scenarios |
-| `policy_bounds(parameters)` | Calculate feasible bounds for alpha and beta |
-| `welfare_from_series(metrics, model, window=..., aggregation=...)` | Aggregate welfare over the selected periods |
-| `evaluate_policy(policy, parameters, seeds=..., window=..., aggregation=...)` | Evaluate a candidate policy |
-| `run_de(objective, bounds, **search_settings)` | Search for the optimal policy using differential evolution |
