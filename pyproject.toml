@@ -8,13 +8,15 @@ version = "1.0.0"
 description = "Code for the bi-level simulation-optimization model for emission caps and auction shares"
 readme = "README.md"
 requires-python = ">=3.9"
-license = {file = "LICENSE"}
 authors = [
     {name = "Xiaoyi Long"},
     {name = "Fanlin Meng", email = "F.Meng2@exeter.ac.uk"},
     {name = "Xiao-Jun Zeng"},
 ]
 dependencies = ["numpy>=1.23,<3", "scipy>=1.9,<2"]
+
+[project.urls]
+Repository = "https://github.com/LONG-xy/ets-policy-code"
 
 [tool.setuptools.packages.find]
 where = ["."]

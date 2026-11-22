@@ -1,9 +1,4 @@
-# Parameter interface (no numerical inputs)
-
-Supply a Python dictionary populated from the article and supplementary
-material. This file documents names and meanings only; it is not a numerical
-configuration or experiment script. All keys below are required unless marked
-optional. The original simulator does not comprehensively validate inputs.
+# Parameters
 
 ## Time structure
 
@@ -15,8 +10,8 @@ optional. The original simulator does not comprehensively validate inputs.
 | `t_trans` | integer | Number of transition periods over which policy changes |
 
 Use positive integer time quantities and `TP > baseline_period + t_trans`
-for the observation-window objective. A separate `t_eval` input is not read by
-the model: evaluation length is `TP - baseline_period - t_trans`.
+for the observation-window objective. The evaluation length is
+`TP - baseline_period - t_trans`.
 Policy optimization requires `t_trans > 1`.
 
 ## Economic and firm inputs
@@ -39,8 +34,8 @@ Policy optimization requires `t_trans > 1`.
 | `w_delivery` | nonnegative number | Relative delivery-performance weight |
 
 The three competitiveness weights must have a positive sum; the model
-normalizes them. Firm-specific initial emissions intensity follows the original
-normal-draw implementation; use economically meaningful input magnitudes.
+normalizes them. Firm-specific initial emissions intensity is drawn from a normal
+distribution.
 
 ## Abatement inputs
 
@@ -65,15 +60,14 @@ normal-draw implementation; use economically meaningful input magnitudes.
 | `use_penalty` | boolean | Apply end-of-period compliance penalties |
 | `penalty_rate` | nonnegative number | Penalty per unit of uncovered emissions |
 | `damage_coeff` | nonnegative number | Environmental damage per unit of emissions |
-| `discount_rate` | number | Retained model field; not applied by current welfare metrics |
+| `discount_rate` | number | Reserved discount-rate field |
 | `tc_rate_b` | nonnegative number, optional | Buyer transaction-cost rate; original default is zero |
 | `tc_rate_s` | nonnegative number, optional | Seller transaction-cost rate; original default is zero |
 
 Use `auctions_per_period <= t_period` so the auction count is consistent with
 distinct round positions. `evaluate_policy` replaces `E_step` and `auction_step`
-with each candidate; direct `simulate_ets` calls require both keys. The original
-simulator permits omitting `damage_coeff` and uses its internal fallback, but the
-public objective requires an explicit coefficient to avoid an implicit calibration.
+with each candidate; direct `simulate_ets` calls require both keys.
+`evaluate_policy` also requires an explicit `damage_coeff`.
 
 ## Optimization inputs
 
@@ -85,12 +79,11 @@ public objective requires an explicit coefficient to avoid an implicit calibrati
 | `seed` | Search random seed, distinct from the simulation seed set |
 | `max_iterations` | Maximum number of generations after initialization |
 | `min_delta` | Minimum welfare improvement counted as significant |
-| `patience` | Generations without significant improvement before stopping |
+| `patience` | Consecutive generations below the improvement threshold before stopping |
 | `mutation` | SciPy differential-evolution mutation setting |
 | `recombination` | SciPy differential-evolution crossover probability |
 | `callback` | Optional monitoring callback, receiving `(xk, convergence)` |
 | `disp` | Optional SciPy progress output flag |
 
 `evaluate_policy` additionally requires a nonempty iterable of simulation
-`seeds`, `window`, and `aggregation`. Use the article and supplementary material
-for experimental settings; no numerical seed list or calibration is bundled.
+`seeds`, `window`, and `aggregation`.

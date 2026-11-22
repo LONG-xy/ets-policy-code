@@ -1,5 +1,0 @@
-# Versions used for local verification, not an experiment input configuration.
-# To recreate these dependency versions in a Python 3.11 environment:
-# python -m pip install -r verification-environment.txt
-numpy==1.24.4
-scipy==1.13.0
