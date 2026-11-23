@@ -33,15 +33,11 @@ pyproject.toml         # Package settings and dependencies
 
 ## Usage
 
-From the repository directory, run:
-
 ```bash
 python run.py
 ```
 
-`run.py` calls `run_de` in `ets_code/optimization.py` to jointly optimize the emission cap reduction rate and auction-share growth rate. The optimizer evaluates candidate policies by calling the simulation in `ets_code/model/simulation_ets.py` through `evaluate_policy` in `ets_code/objective.py`.
-
-The program prints optimization progress, the two optimized policy rates, and the mean social welfare across simulation seeds during the observation phase.
+`run.py` jointly optimizes the emission cap reduction rate and auction-share growth rate using differential evolution.
 
 ## Citation
 
