@@ -39,7 +39,7 @@ From the repository directory, run:
 python run.py
 ```
 
-`run.py` contains the Experiment 1 baseline parameters and uses simulation seed 1. It calls `simulate_ets` in `ets_code/model/simulation_ets.py` to run the business-as-usual and ETS scenarios, then prints their mean social welfare per period during the observation phase.
+`run.py` contains the Experiment 1 baseline parameters and uses simulation seed 1. It calls `simulate_ets` in `ets_code/model/simulation_ets.py` to run the business-as-usual (BAU) and ETS scenarios, then prints their mean social welfare per period during the observation phase.
 
 To evaluate a specified policy, change `E_step` (emission cap reduction rate) and `auction_step` (auction-share growth rate) in `PARAMETERS` at the top of `run.py`. Parameter definitions are listed in [PARAMETERS.md](PARAMETERS.md).
 
