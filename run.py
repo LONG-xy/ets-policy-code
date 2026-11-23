@@ -1,8 +1,9 @@
-"""Run one ETS simulation using the Experiment 1 baseline parameters."""
+"""Optimize ETS policy using the Experiment 1 settings."""
 
-import numpy as np
+from functools import partial
 
-from ets_code import c_parameters, simulate_ets, welfare_from_series
+from ets_code import evaluate_policy, policy_bounds
+from ets_code.optimization import run_de
 
 
 PARAMETERS = {
@@ -22,8 +23,6 @@ PARAMETERS = {
     'penalty_rate': 15,
     'bank_until_impl_end': False,
     'auctions_per_period': 4,
-    'auction_step': 0.035093963347912135,
-    'E_step': 0.042051779827747625,
     'allow_banking': True,
     'damage_coeff': 5,
     'discount_rate': 0,
@@ -44,29 +43,36 @@ PARAMETERS = {
     'production_trend_weight': 0.01,
 }
 
-SIMULATION_SEED = 1
+SIMULATION_SEEDS = list(range(1, 21))
+SEARCH_SETTINGS = {
+    "population": 40,
+    "seed": 42,
+    "max_iterations": 100,
+    "min_delta": 1e-4,
+    "patience": 10,
+    "mutation": (0.5, 1.0),
+    "recombination": 0.7,
+}
 
 
 def main():
-    np.random.seed(SIMULATION_SEED)
-    fixed_random_par = c_parameters(PARAMETERS).generate_random_parameter()
-    np.random.seed(SIMULATION_SEED)
-    model, metrics = simulate_ets(
-        PARAMETERS,
-        fixed_random_par=fixed_random_par,
+    objective = partial(
+        evaluate_policy,
+        param_dict=PARAMETERS,
+        seeds=SIMULATION_SEEDS,
+        window="observation",
+        aggregation="mean",
     )
-    if model.error:
-        raise RuntimeError("; ".join(model.log))
-
-    print(f"Simulation seed: {SIMULATION_SEED}")
-    print(f"Cap reduction rate (alpha): {PARAMETERS['E_step']:.8f}")
-    print(f"Auction-share growth rate (beta): {PARAMETERS['auction_step']:.8f}")
-    for label, series in zip(("Business as usual", "ETS"), metrics):
-        welfare = welfare_from_series(
-            series, model, window="observation", aggregation="mean",
-        )
-        print(f"{label} mean welfare per observation period: {welfare:.6f}")
-    return model, metrics
+    result = run_de(
+        objective,
+        bounds=policy_bounds(PARAMETERS),
+        **SEARCH_SETTINGS,
+        disp=True,
+    )
+    print(f"Optimal cap reduction rate (alpha): {result.x[0]:.16g}")
+    print(f"Optimal auction-share growth rate (beta): {result.x[1]:.16g}")
+    print(f"Mean social welfare: {-result.fun:.6f}")
+    return result
 
 
 if __name__ == "__main__":

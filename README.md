@@ -17,7 +17,7 @@ python -m pip install .
 ## File structure
 
 ```text
-run.py                 # Runnable simulation example with Experiment 1 parameters
+run.py                 # Policy optimization entry point
 ets_code/
   model/
     simulation_ets.py   # Model parameters and simulation sequence
@@ -39,9 +39,9 @@ From the repository directory, run:
 python run.py
 ```
 
-`run.py` calls `simulate_ets` in `ets_code/model/simulation_ets.py` to run the business-as-usual (BAU) and ETS scenarios, then prints their mean social welfare per period during the observation phase.
+`run.py` calls `run_de` in `ets_code/optimization.py` to jointly optimize the emission cap reduction rate and auction-share growth rate. The optimizer evaluates candidate policies by calling the simulation in `ets_code/model/simulation_ets.py` through `evaluate_policy` in `ets_code/objective.py`.
 
-To evaluate a specified policy, change `E_step` (emission cap reduction rate) and `auction_step` (auction-share growth rate) in `PARAMETERS` at the top of `run.py`. Parameter definitions are listed in [PARAMETERS.md](PARAMETERS.md).
+The program prints optimization progress, the two optimized policy rates, and the mean social welfare across simulation seeds during the observation phase.
 
 ## Citation
 
