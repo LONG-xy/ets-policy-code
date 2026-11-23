@@ -37,7 +37,7 @@ pyproject.toml         # Package settings and dependencies
 python run.py
 ```
 
-`run.py` jointly optimizes the emission cap reduction rate and auction-share growth rate using differential evolution.
+`run.py` jointly optimizes the emission cap reduction rate and auction-share growth rate using differential evolution. For each candidate policy, the optimizer calls `evaluate_policy` in `ets_code/objective.py`, which runs the simulation using `simulate_ets` in `ets_code/model/simulation_ets.py`.
 
 ## Citation
 
