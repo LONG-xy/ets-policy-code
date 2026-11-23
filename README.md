@@ -43,8 +43,6 @@ python run.py
 
 To evaluate a specified policy, change `E_step` (emission cap reduction rate) and `auction_step` (auction-share growth rate) in `PARAMETERS` at the top of `run.py`. Parameter definitions are listed in [PARAMETERS.md](PARAMETERS.md).
 
-The simulation returns `model` (the ETS model state) and `metrics` (the business-as-usual and ETS results). The results include firm profits (`profit_t`), consumer surplus (`cs_t`), auction revenue (`govR_t`), penalties (`penalty_t`), environmental damage (`damage_t`), and social welfare (`sw_t`).
-
 ## Citation
 
 If you use this work, please cite:
